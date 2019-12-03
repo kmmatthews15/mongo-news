@@ -10,14 +10,13 @@ $(document).ready(function() {
 	// Display saved articles on page load
 	$.getJSON("/articles", function(data) {
 	  // For each one
-	  for (var i = 0; i < data.length; i++) {
-	  	// if article has been marked as saved
+	  for (let i = 0; i < data.length; i++) {
 	  	if (data[i].saved === true) {
 				// Display the information on the page
 	   		$("#saved-results").append("<div class='saved-div'><p class='saved-text'>" + data[i].title + "<br>" + data[i].description +
-  																	"</p><a class='unsave-button button is-danger is-medium' data-id='" +
-																		data[i]._id + "'>Remove</a><a class='comments-button button is-info is-medium' data-id='" + data[i]._id +
-																		"'><span class='icon'><i class='fa fa-comments'></i></span>Comments</a></div>");
+  					"</p><a class='unsave-button button is-danger is-medium' data-id='" +
+						data[i]._id + "'>Remove</a><a class='comments-button button is-info is-medium' data-id='" + data[i]._id +
+						"'><span class='icon'><i class='fa fa-comments'></i></span>Comments</a></div>");
 	  	}
 	  }
 	});
@@ -27,7 +26,7 @@ $(document).ready(function() {
 		// Open the comments modal
 		$(".modal").toggleClass("is-active");
 		// Get article by article ID
-		var articleID = $(this).attr("data-id");
+		let articleID = $(this).attr("data-id");
 		// Now make an ajax call for the Article
 	  $.ajax({
 	    method: "GET",
@@ -58,7 +57,7 @@ $(document).ready(function() {
 	// Saving Comments
 	$(document).on("click", "#save-comment", function() {
 	  // Grab the id associated with the article from the submit button
-	  var articleID = $(this).attr("data-id");
+	  let articleID = $(this).attr("data-id");
 	  // Run a POST request to add a comment, using what's entered in the inputs
 	  $.ajax({
 	    method: "POST",
@@ -86,7 +85,7 @@ $(document).ready(function() {
 	// Removing Saved Articles
 	$(document).on("click", ".unsave-button", function() {
 		// Get article id
-		var articleID = $(this).attr("data-id");
+		let articleID = $(this).attr("data-id");
 		console.log(articleID);
 		// Run a POST request to update the article to be saved
 	  $.ajax({

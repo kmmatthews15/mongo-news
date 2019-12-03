@@ -1,33 +1,31 @@
-var express = require("express");
-var request = require("request");
-var cheerio = require("cheerio");
-var Comment = require("../models/Comment.js");
-var Article = require("../models/Article.js");
-var router = express.Router();
+const express = require("express");
+const request = require("request");
+const cheerio = require("cheerio");
+const Comment = require("../models/Comment.js");
+const Article = require("../models/Article.js");
+const router = express.Router();
 
 
-// ============= ROUTES FOR HOME PAGE =============//
+// ============= ROUTES FOR HOME =============//
 
-// Scrape data from NPR website and save to mongodb
+// Scrape data from website and save to mongodb
 router.get("/scrape", function(req, res) {
   // Grab the body of the html with request
-  request("http://www.npr.org/sections/news/archive", function(error, response, html) {
-    // Load that into cheerio and save it to $ for a shorthand selector
-    var $ = cheerio.load(html);
+  request("https://www.washingtonpost.com/news/arts-and-entertainment/wp/category/archives/", function(error, response, html) {
+    // Load that into cheerio and save it to $ 
+    let $ = cheerio.load(html);
     // Grab every part of the html that contains a separate article
     $("div.archivelist > article").each(function(i, element) {
 
       // Save an empty result object
-      var result = {};
+      let result = {};
 
-      // Get the title and description of every article, and save them as properties of the result object
-      // result.title saves entire <a> tag as it appears on NPR website
       result.title = $(element).children("div.item-info").children("h2.title").html();
       // result.description saves text description
 			result.description = $(element).children("div.item-info").children("p.teaser").children("a").text();
       
       // Using our Article model, create a new entry
-      var entry = new Article(result);
+      let entry = new Article(result);
 
       // Now, save that entry to the db
       entry.save(function(err, doc) {
@@ -107,7 +105,7 @@ router.get("/articles/:id", function(req, res) {
 // Create a new comment
 router.post("/comment/:id", function(req, res) {
   // Create a new comment and pass the req.body to the entry
-  var newComment = new Comment(req.body);
+  let newComment = new Comment(req.body);
   // And save the new comment the db
   newComment.save(function(error, newComment) {
     // Log any errors

@@ -1,7 +1,7 @@
-var express = require("express");
-var exphbs = require("express-handlebars");
+const express = require("express");
+const exphbs = require("express-handlebars");
 
-var router = express.Router();
+const router = express.Router();
 
 router.get("/", (req, res) => {
   res.render("index");
@@ -9,6 +9,5 @@ router.get("/", (req, res) => {
 
 router.get("/saved", (req, res) => {
 	res.render("saved");
-});
-
+}const
 module.exports = router;
